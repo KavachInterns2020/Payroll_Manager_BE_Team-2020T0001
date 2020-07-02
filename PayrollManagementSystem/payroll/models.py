@@ -17,3 +17,51 @@ class Companies(models.Model):
 
     def __str__(self):
         return self.companyName
+
+
+class User(models.Model):
+    Admin = 'Admin'
+    Employee = 'Employee'
+    roleChoices=[(Admin,'Admin'),
+                    (Employee,'Employee')
+    ]
+    userId = models.AutoField(primary_key=True,unique=True)
+    userName = models.CharField(max_length=250)
+    password  = models.CharField(max_length=250)
+    role  = models.CharField(max_length=250, choices=roleChoices,default=Employee)
+
+
+    def __str__(self):
+        return self.userId
+
+
+
+class AdminUser(models.Model):
+    adminId = models.AutoField(primary_key=True,unique=True)
+    companyId =  models.ForeignKey(Companies, on_delete=models.CASCADE)
+    adminName = models.CharField(max_length=250)
+    Password = models.CharField(max_length=250)
+    
+    
+
+
+    def __str__(self):
+        return "%s" % (self.adminId)
+
+
+class Department(models.Model):
+    departmentId  = models.CharField(max_length=250,primary_key=True,unique=True)
+    departmentName  = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.departmentId
+
+
+class Designation(models.Model):
+    designationId  = models.CharField(max_length=250,primary_key=True,unique=True)
+    departmentId  = models.ForeignKey(Department, on_delete=models.CASCADE)
+    designationName  = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.designationId
+
