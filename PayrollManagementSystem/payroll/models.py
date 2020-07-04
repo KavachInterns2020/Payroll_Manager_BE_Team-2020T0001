@@ -17,3 +17,13 @@ class Companies(models.Model):
 
     def __str__(self):
         return self.companyName
+
+
+class AdminUser(models.Model):
+    adminId = models.CharField(max_length=150, primary_key=True, unique=True)
+    companyId = models.CharField(max_length=100)
+    adminName = models.CharField(max_length=250)
+    Password = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.adminName

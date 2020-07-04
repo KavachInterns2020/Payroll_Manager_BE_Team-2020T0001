@@ -121,3 +121,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Setting for sending mail.
+EMAIL_HOST_USER = "payrollmanager@gmail.com"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = '123456'
+EMAIL_USE_TLS = True
+
