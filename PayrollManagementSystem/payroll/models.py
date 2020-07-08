@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Companies(models.Model):
-    companyId = models.CharField(max_length=100, primary_key=True, unique=True)
+    companyId = models.AutoField(primary_key=True, unique=True)
     companyName = models.CharField(max_length=250)
     companyAddress = models.CharField(max_length=250)
     companyEmailAddress = models.EmailField(max_length=250, unique=True)
