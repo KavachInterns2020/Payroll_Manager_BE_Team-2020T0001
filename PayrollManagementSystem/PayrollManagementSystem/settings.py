@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'payroll.apps.PayrollConfig',
+    'companyRegistrationAndLoginApplication.apps.PayrollConfig',
     'rest_framework',
 ]
 
@@ -127,6 +127,6 @@ STATIC_URL = '/static/'
 EMAIL_HOST_USER = "payrollmanager@gmail.com"    # enter your gmail address
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = '123456789'                  # and password
+EMAIL_HOST_PASSWORD = '123456'                  # and password
 EMAIL_USE_TLS = True
 

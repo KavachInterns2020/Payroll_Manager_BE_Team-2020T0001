@@ -1,5 +1,5 @@
 from rest_framework import routers
-from payroll.viewset import CompanyViewset
+from companyRegistrationAndLoginApplication.viewset import CompanyViewset
 
 
 router = routers.DefaultRouter()
