@@ -20,9 +20,7 @@ from .router import router
 
 admin.site.site_header = "Payroll Management System"
 admin.site.site_title = "Payroll Manager"
-admin.site.index_title = "Welcome to Payroll Management System"
-
-
+admin.site.index_title = "Welcome to Payroll Management System..."
 
 urlpatterns = [
     path('admin/', admin.site.urls),

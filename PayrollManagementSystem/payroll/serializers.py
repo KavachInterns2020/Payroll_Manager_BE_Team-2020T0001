@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Companies, AdminUser
+from django.contrib.auth.models import User, Group
+
 import random
 from .sendMail import sendmail
 
@@ -35,6 +37,9 @@ class CompanySerializer(serializers.ModelSerializer):
                                 companyId=Companies.objects.get(companyGSTNumber=self.validated_data['companyGSTNumber']),
                                 adminName=self.validated_data['companyName']+"_admin", Password=pwd
                                 )
+
+        user = User(username=admin_id, password=pwd, first_name=self.validated_data['companyName']+"_admin")
+        user.save()
         # sendmail(to=validated_data["companyEmailAddress"], admin_id=admin_id, password=pwd)
         admin_model.save()
         return companies
