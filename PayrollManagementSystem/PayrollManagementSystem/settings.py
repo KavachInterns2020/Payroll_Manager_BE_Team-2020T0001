@@ -124,9 +124,9 @@ STATIC_URL = '/static/'
 
 
 # Setting for sending mail.
-EMAIL_HOST_USER = "payrollmanager@gmail.com"
+EMAIL_HOST_USER = "payrollmanager@gmail.com"    # enter your gmail address
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = '123456'
+EMAIL_HOST_PASSWORD = '123456789'                  # and password
 EMAIL_USE_TLS = True
 
