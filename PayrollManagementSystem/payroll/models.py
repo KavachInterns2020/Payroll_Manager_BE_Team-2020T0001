@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Companies(models.Model):
+    companyId = models.AutoField(primary_key=True, unique=True)
     companyName = models.CharField(max_length=250)
     companyAddress = models.CharField(max_length=250)
     companyEmailAddress = models.EmailField(max_length=250, unique=True)
@@ -14,9 +15,6 @@ class Companies(models.Model):
     companyWebsite = models.URLField()
     companyDetails = models.CharField(max_length=500)
 
-    def __str__(self):
-        return self.companyName
-
 
 class AdminUser(models.Model):
     adminId = models.CharField(max_length=150, primary_key=True, unique=True)
@@ -25,4 +23,4 @@ class AdminUser(models.Model):
     Password = models.CharField(max_length=250)
 
     def __str__(self):
-        return self.adminName
+        return self.adminId
