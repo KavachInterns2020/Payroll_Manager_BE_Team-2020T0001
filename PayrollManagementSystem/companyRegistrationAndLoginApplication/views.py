@@ -26,7 +26,10 @@ class LogoutView(APIView):
     def post(self ,request):
         return Response(status=204)
 
-# this is created 
+# this is user defined method
+
+#perform makemigrations
+#perform migrate
 
 #login
 # api --->  http://localhost:8080/auth/login/
