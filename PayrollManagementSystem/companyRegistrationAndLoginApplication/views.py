@@ -26,6 +26,7 @@ class LogoutView(APIView):
     def post(self ,request):
         return Response(status=204)
 
+# this is created 
 
 #login
 # api --->  http://localhost:8080/auth/login/
@@ -33,3 +34,15 @@ class LogoutView(APIView):
 
 #logout
 # api --->  http://localhost:8080/auth/logout/
+
+
+
+
+# for using default method----
+
+
+# type  in cmd- pip install djoser
+
+#api ----> http://localhost:8080/auth/token/login/
+
+#api ----> http://localhost:8080/auth/token/logout/
