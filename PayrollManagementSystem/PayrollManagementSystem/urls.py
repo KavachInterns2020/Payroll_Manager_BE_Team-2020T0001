@@ -25,4 +25,5 @@ admin.site.index_title = "Welcome to Payroll Management System..."
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('auth/',include('companyRegistrationAndLoginApplication.urls'))
 ]

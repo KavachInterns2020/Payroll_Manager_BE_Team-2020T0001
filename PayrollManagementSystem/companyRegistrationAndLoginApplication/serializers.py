@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Companies, AdminUser
 from django.contrib.auth.models import User, Group
+from django.contrib.auth import authenticate
+from rest_framework import exceptions
 
 import random
 from .sendMail import sendmail
@@ -43,3 +45,29 @@ class CompanySerializer(serializers.ModelSerializer):
         # sendmail(to=validated_data["companyEmailAddress"], admin_id=admin_id, password=pwd)
         admin_model.save()
         return companies
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self,data):
+        username = data.get("username","")
+        password = data.get("password","")
+
+        if username and password :
+            user = authenticate(username=username,password=password)
+            if user:
+                if user.is_active:
+                    data['user'] = user
+                else:
+                    msg="User is Not Found"
+                    raise exceptions.ValidationError(msg)
+            else:
+                msg="Wrong Credentials"
+                raise exceptions.ValidationError(msg)
+        else:
+            msg="Must Provide username and Password"
+            raise exceptions.ValidationError(msg)
+        
+
+        return data
