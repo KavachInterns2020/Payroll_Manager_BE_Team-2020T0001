@@ -26,6 +26,7 @@ class LogoutView(APIView):
     authentication_classes = (TokenAuthentication, )
 
     def post(self, request):
+        logout(request)
         return Response(status=204)
 
 # this is user defined method
