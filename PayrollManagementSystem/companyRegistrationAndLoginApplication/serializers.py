@@ -40,9 +40,8 @@ class CompanySerializer(serializers.ModelSerializer):
                                 adminName=self.validated_data['companyName']+"_admin", Password=pwd
                                 )
 
-        user = User(username=admin_id, password=pwd, first_name=self.validated_data['companyName']+"_admin")
-        user.save()
-        # sendmail(to=validated_data["companyEmailAddress"], admin_id=admin_id, password=pwd)
+        user = User.objects.create_user(username=admin_id, password=pwd, first_name=self.validated_data['companyName']+"_admin")
+        sendmail(to=validated_data["companyEmailAddress"], admin_id=admin_id, password=pwd)
         admin_model.save()
         return companies
 
@@ -51,6 +50,7 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def validate(self,data):
+        print(data)
         username = data.get("username","")
         password = data.get("password","")
 
