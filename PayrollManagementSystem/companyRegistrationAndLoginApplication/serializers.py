@@ -40,7 +40,7 @@ class CompanySerializer(serializers.ModelSerializer):
                                 adminName=self.validated_data['companyName']+"_admin", Password=pwd
                                 )
 
-        user = User(username=admin_id, password=pwd, first_name=self.validated_data['companyName']+"_admin")
+        user =  Users.objects.create_user(username=admin_id, password=pwd, first_name=self.validated_data['companyName']+"_admin")
         user.save()
         # sendmail(to=validated_data["companyEmailAddress"], admin_id=admin_id, password=pwd)
         admin_model.save()
