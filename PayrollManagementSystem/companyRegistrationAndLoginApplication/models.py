@@ -1,5 +1,5 @@
 from django.db import models
-from employeesManagement.models import Employees
+
 
 # Create your models here.
 
@@ -28,6 +28,9 @@ class AdminUser(models.Model):
         return self.adminId
 
 
+from employeesManagement.models import Employees
+
+
 class Review(models.Model):
     employeeId = models.ForeignKey(Employees, default=None, on_delete=models.CASCADE)
     companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
@@ -48,4 +51,5 @@ class Holidays(models.Model):
     month = models.CharField(max_length=50)
     year = models.IntegerField()
 
-
+    def __str__(self):
+        return self.holidayName
