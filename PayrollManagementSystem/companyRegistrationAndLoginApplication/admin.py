@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Companies, AdminUser
+from .models import Companies, AdminUser, Holidays, Review
 
 # admin credentials
 # username -> admin
@@ -9,4 +9,5 @@ from .models import Companies, AdminUser
 # Register your models here.
 admin.site.register(Companies)
 admin.site.register(AdminUser)
-
+admin.site.register(Holidays)
+admin.site.register(Review)
