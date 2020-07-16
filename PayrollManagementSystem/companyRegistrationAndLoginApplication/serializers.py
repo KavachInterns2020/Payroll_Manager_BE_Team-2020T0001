@@ -3,7 +3,6 @@ from .models import Companies, AdminUser
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
-
 import random
 from .sendMail import sendmail
 
@@ -40,7 +39,7 @@ class CompanySerializer(serializers.ModelSerializer):
                                 adminName=self.validated_data['companyName']+"_admin", Password=pwd
                                 )
 
-        user =  Users.objects.create_user(username=admin_id, password=pwd, first_name=self.validated_data['companyName']+"_admin")
+        user = User.objects.create_user(username=admin_id, password=pwd, first_name=self.validated_data['companyName']+"_admin")
         
         # sendmail(to=validated_data["companyEmailAddress"], admin_id=admin_id, password=pwd)
         admin_model.save()
@@ -56,7 +55,7 @@ class LoginSerializer(serializers.Serializer):
         password = data.get("password", "")
 
         if username and password:
-            user = authenticate(username=username,password=password)
+            user = authenticate(username=username, password=password)
             if user:
                 if user.is_active:
                     data['user'] = user
