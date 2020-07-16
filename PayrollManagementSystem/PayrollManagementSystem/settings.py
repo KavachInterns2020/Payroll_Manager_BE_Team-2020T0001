@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'attendanceManagement.apps.AttendancemanagementConfig',
+    'departmentAndDesignationManagement.apps.DepartmentanddesignationmanagementConfig',
+    'employeesManagement.apps.EmployeesmanagementConfig',
+    'leavesManagement.apps.LeavesmanagementConfig',
+    'overtimeManagement.apps.OvertimemanagementConfig',
+    'salaryAndPayslipManagement.apps.SalaryandpayslipmanagementConfig',
 ]
 
 MIDDLEWARE = [

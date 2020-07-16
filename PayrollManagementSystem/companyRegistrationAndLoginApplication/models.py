@@ -100,7 +100,7 @@ class BankAccountDetails(models.Model):
 class Review(models.Model):
     employeeId = models.ForeignKey(Employees, default=None, on_delete=models.CASCADE)
     companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
-    rating = models.IntegerField(max_length=5)
+    rating = models.IntegerField()
     feedback = models.CharField(max_length=450)
     date = models.DateField(auto_now=True, auto_created=True)
     time = models.TimeField(auto_now=True, auto_created=True)
