@@ -28,6 +28,7 @@ class AdminUser(models.Model):
 
 class Department(models.Model):
     departmentId = models.AutoField(primary_key=True, unique=True)
+    companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     departmentName = models.CharField(max_length=250, unique=True)
 
     def __str__(self):
@@ -36,6 +37,7 @@ class Department(models.Model):
 
 class Designation(models.Model):
     designationId = models.AutoField(primary_key=True, unique=True)
+    companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     designationName = models.CharField(max_length=250, unique=True)
     departmentId = models.ForeignKey(Department, default=None, on_delete=models.CASCADE)
 
@@ -45,6 +47,7 @@ class Designation(models.Model):
 
 class HeadOfDepartment(models.Model):
     headOfDepartmentId = models.AutoField(primary_key=True, unique=True)
+    companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     headOfDepartmentName = models.CharField(max_length=250, unique=True)
     emailAddress = models.EmailField(max_length=250, unique=True)
     contactNumber = models.CharField(max_length=10, unique=True)
@@ -72,6 +75,7 @@ class Employees(models.Model):
 
 class Address(models.Model):
     employeeId = models.ForeignKey(Employees, default=None, on_delete=models.CASCADE)
+    companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     houseNumber = models.CharField(max_length=10)
     streetName = models.CharField(max_length=250)
     landmark = models.CharField(max_length=250)
@@ -83,6 +87,7 @@ class Address(models.Model):
 
 class BankAccountDetails(models.Model):
     employeeId = models.ForeignKey(Employees, default=None, on_delete=models.CASCADE)
+    companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     bankName = models.CharField(max_length=250)
     branchName = models.CharField(max_length=250)
     branchAddress = models.CharField(max_length=250)
@@ -94,6 +99,7 @@ class BankAccountDetails(models.Model):
 
 class Review(models.Model):
     employeeId = models.ForeignKey(Employees, default=None, on_delete=models.CASCADE)
+    companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     rating = models.IntegerField(max_length=5)
     feedback = models.CharField(max_length=450)
     date = models.DateField(auto_now=True, auto_created=True)
@@ -104,6 +110,7 @@ class Review(models.Model):
 
 class Holidays(models.Model):
     holidayId = models.AutoField(primary_key=True, unique=True)
+    companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     holidayName = models.CharField(max_length=250)
     date = models.DateField()
     day = models.CharField(max_length=150)
