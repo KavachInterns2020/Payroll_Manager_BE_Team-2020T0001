@@ -7,5 +7,13 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\himanshu\Documents\GitHub\Payroll_Manager_BE_Team-2020T0001\PayrollManagementSystem\db.sqlite3</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Django default" uuid="755a511f-d288-407b-a55e-40db29fcad61">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/PayrollManagementSystem/settings.py</remarks>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\himanshu\Documents\GitHub\Payroll_Manager_BE_Team-2020T0001\PayrollManagementSystem\db.sqlite3</jdbc-url>
+    </data-source>
   </component>
 </project>
