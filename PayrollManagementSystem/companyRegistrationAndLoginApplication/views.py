@@ -19,10 +19,9 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
-        companyId = AdminUser.objects.get(adminId=user)[1]
         login(request, user)
         token, created = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key, "user_id": user, "company_id": companyId}, status=200)
+        return Response({"token": token.key, "user_id": token.user_id}, status=200)
 
 
 class LogoutView(APIView):
