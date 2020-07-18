@@ -21,6 +21,7 @@ class DepartmentViewset(viewsets.ModelViewSet):
                 company_id = request.company_id
                 dept_model = models.Department(departmentName=dept_name, companyId=company_id)
                 dept_model.save()
+                department_serializers.save()
                 return Response(department_serializers.data, status=status.HTTP_201_CREATED)
             return Response(department_serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
