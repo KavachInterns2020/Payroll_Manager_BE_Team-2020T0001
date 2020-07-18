@@ -9,17 +9,20 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
-
+from .models import AdminUser
 
 # Create your views here.
+
+
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
-        login(request,user)
-        token , created =Token.objects.get_or_create(user=user)
-        return Response({"token": token.key}, status=200)
+        companyId = AdminUser.objects.get(adminId=user)[1]
+        login(request, user)
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key, "user_id": user, "company_id": companyId}, status=200)
 
 
 class LogoutView(APIView):

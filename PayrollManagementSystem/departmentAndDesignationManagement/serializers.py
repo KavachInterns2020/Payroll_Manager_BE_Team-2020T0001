@@ -1,32 +1,28 @@
 from rest_framework import serializers
-from .models import Department , Designation
+from .models import Department, Designation
 from companyRegistrationAndLoginApplication.models import AdminUser
 from django.contrib.auth.models import User
-
-
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = ["departmentName","companyId"]
+        fields = ["departmentName"]
 
-    def create(self, validated_data):
-        department= Department(
-            departmentName=self.validated_data['departmentName'],
-            companyId=self.validated_data['companyId'],
-            
-        )
-
-        department.save()
+    # def create(self, validated_data):
+    #     department = Department(
+    #         departmentName=self.validated_data['departmentName'],
+    #     )
+    #
+    #     department.save()
     
 
 class DesignationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Designation
-        fields = ['designationId','companyId','departmentId','designationName']
+        fields = ['designationId', 'companyId', 'departmentId', 'designationName']
 
-    def create(self ,validated_data):
+    def create(self, validated_data):
         designation = Designation(
             departmentId=self.validated_data['departmentId'],
             designationName=self.validated_data['designationName'],
