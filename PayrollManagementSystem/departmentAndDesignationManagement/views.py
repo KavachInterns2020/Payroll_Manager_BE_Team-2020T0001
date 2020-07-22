@@ -75,7 +75,7 @@ class DepartmentdetailView(APIView):
                 serializer = DepartmentSerializer(instance,data=data)
                 if serializer.is_valid():
                     departmentName = serializer.validated_data['departmentName']
-                    dept = Department(departmentName=departmentName,company=Companies.objects.get(companyId=companyId))
+                    dept = Department(departmentName=departmentName,companyId=Companies.objects.get(companyId=companyId))
                     dept.save()
 
                     serializer.save()
