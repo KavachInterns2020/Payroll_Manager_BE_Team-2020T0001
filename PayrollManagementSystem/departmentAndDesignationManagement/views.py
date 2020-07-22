@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from . import models, serializers
 from rest_framework.response import Response
 from rest_framework import status
-from companyRegistrationAndLoginApplication.models import AdminUser
+from companyRegistrationAndLoginApplication.models import AdminUser, Companies
 # Create your views here.
 
 
@@ -18,8 +18,10 @@ class DepartmentViewset(viewsets.ModelViewSet):
             department_serializers = serializers.DepartmentSerializer(data=request.data)
             if department_serializers.is_valid():
                 dept_name = department_serializers.validated_data['departmentName']
-                admin_credentials = AdminUser.objects.get(adminId=request.user_id)
-                dept_model = models.Department(departmentName=dept_name, companyId=admin_credentials.companyId_id)
+                username = request.user.get_username()
+                companyId = AdminUser.objects.filter(adminId=username).values('companyId')
+                company_object = Companies.objects.get(companyId=companyId)
+                dept_model = models.Department(departmentName=dept_name, companyId=company_object)
                 dept_model.save()
                 department_serializers.save()
                 return Response(department_serializers.data, status=status.HTTP_201_CREATED)

@@ -24,7 +24,7 @@ class LoginView(APIView):
         username = request.user.username
         companyId = AdminUser.objects.filter(adminId=username).values('companyId')
         token, created = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key,"userId":userId,"username":username,"companyId":companyId}, status=200)
+        return Response({"token": token.key, "userId": userId, "username": username, "companyId": companyId}, status=200)
 
 
 class LogoutView(APIView):

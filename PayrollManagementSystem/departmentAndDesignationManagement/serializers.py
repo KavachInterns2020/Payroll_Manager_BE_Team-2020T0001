@@ -8,13 +8,6 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = ["departmentName"]
-
-    # def create(self, validated_data):
-    #     department = Department(
-    #         departmentName=self.validated_data['departmentName'],
-    #     )
-    #
-    #     department.save()
     
 
 class DesignationSerializer(serializers.ModelSerializer):
