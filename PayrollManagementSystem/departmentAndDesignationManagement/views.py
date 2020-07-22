@@ -10,7 +10,7 @@ from .models import Department
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 # Create your views here.
-
+from companyRegistrationAndLoginApplication.models import Companies
 """
 class DepartmentViewset(viewsets.ModelViewSet):
     queryset = models.Department.objects.all()
@@ -32,6 +32,7 @@ class DepartmentViewset(viewsets.ModelViewSet):
             return Response(department_serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 """
 
+
 class DepartmentView(APIView):
     
     permission_classes = [IsAuthenticated]
@@ -45,15 +46,19 @@ class DepartmentView(APIView):
                 data = request.data
                 username = request.user.username
                 companyId = AdminUser.objects.filter(adminId=username).values('companyId')
-               # companyId = companyId[0]['companyId']
+                a = Companies.objects.get(companyId__in=companyId)
+                print(a)
+                a = a.companyId
+                print(a)
+                #companyId = a[0]['companyId']
                 serializer = DepartmentSerializer(data=data)
                 if serializer.is_valid():
                     departmentName = serializer.validated_data['departmentName']
-                    dept = Department(departmentName=departmentName,companyId=Companies.objects.get(companyId=companyId))
+                    dept = Department(departmentName=departmentName, companyId=Companies.objects.get(companyId=a))
                     dept.save()
-                    serializer.save()
-                    return Response(serializer.data , status=201)
-                return Response("message:sorry",status=400)
+                    # serializer.save()
+                    return Response(serializer.data, status=201)
+                return Response("message:sorry", status=400)
 
                 
 class DepartmentdetailView(APIView):

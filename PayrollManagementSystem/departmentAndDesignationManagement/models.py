@@ -9,9 +9,6 @@ class Department(models.Model):
     companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
     departmentName = models.CharField(max_length=250, unique=True)
 
-    def __str__(self):
-        return self.departmentId
-
 
 class Designation(models.Model):
     designationId = models.AutoField(primary_key=True, unique=True)
