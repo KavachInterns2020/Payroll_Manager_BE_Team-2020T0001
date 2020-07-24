@@ -7,7 +7,7 @@ from companyRegistrationAndLoginApplication.models import Companies
 class Department(models.Model):
     departmentId = models.AutoField(primary_key=True, unique=True)
     companyId = models.ForeignKey(Companies, default=None, on_delete=models.CASCADE)
-    departmentName = models.CharField(max_length=250, unique=True)
+    departmentName = models.CharField(max_length=250)
 
 
 class Designation(models.Model):

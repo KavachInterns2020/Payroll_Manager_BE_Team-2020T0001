@@ -32,6 +32,7 @@ class DepartmentViewset(viewsets.ModelViewSet):
             return Response(department_serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 """
 
+
 class DepartmentView(APIView):
     
     permission_classes = [IsAuthenticated]
@@ -40,7 +41,7 @@ class DepartmentView(APIView):
         username = request.user.username
         companyId = AdminUser.objects.filter(adminId=username).values('companyId')
         dept = Department.objects.filter(companyId__in=companyId)
-        serializer = DepartmentSerializer(dept ,many=True)
+        serializer = DepartmentSerializer(dept, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -89,7 +90,7 @@ class DepartmentdetailView(APIView):
                         return Response(serializer.data , status=201)
                 return Response(status=400)
 
-
+#
 # class DesigantionView(APIView):
 #     permission_classes = [IsAuthenticated]
 #
