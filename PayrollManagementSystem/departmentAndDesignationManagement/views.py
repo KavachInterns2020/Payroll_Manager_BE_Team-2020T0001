@@ -32,14 +32,15 @@ class DepartmentViewset(viewsets.ModelViewSet):
             return Response(department_serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 """
 
-
 class DepartmentView(APIView):
     
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        dept = Department.objects.all()
-        serializer = DepartmentSerializer(dept, many=True)
+    def get(self,request):
+        username = request.user.username
+        companyId = AdminUser.objects.filter(adminId=username).values('companyId')
+        dept = Department.objects.filter(companyId__in=companyId)
+        serializer = DepartmentSerializer(dept ,many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -47,46 +48,46 @@ class DepartmentView(APIView):
                 username = request.user.username
                 companyId = AdminUser.objects.filter(adminId=username).values('companyId')
                 a = Companies.objects.get(companyId__in=companyId)
-                print(a)
-                a = a.companyId
-                print(a)
-                #companyId = a[0]['companyId']
                 serializer = DepartmentSerializer(data=data)
                 if serializer.is_valid():
                     departmentName = serializer.validated_data['departmentName']
-                    dept = Department(departmentName=departmentName, companyId=Companies.objects.get(companyId=a))
-                    dept.save()
-                    # serializer.save()
-                    return Response(serializer.data, status=201)
-                return Response("message:sorry", status=400)
+                    dep = Department.objects.filter(departmentName=departmentName,companyId=a)
+                    if dep:
+                        return Response("Department Exist")
+                    else:
+                        serializer.save(departmentName=departmentName,companyId=a)
+                        return Response(serializer.data , status=201)
+                return Response("message:sorry",status=400)
 
                 
-# class DepartmentdetailView(APIView):
-#
-#     def get_object(self, id):
-#         return Department.objects.get(departmentId=id)
-#
-#     def get(self, request, id=None):
-#         departmentId=id
-#         instance = self.get_object(departmentId)
-#         serializer = DepartmentSerializer(instance)
-#         return Response(serializer.data)
-#
-#     def put(self, request, id=None):
-#                 departmentId=id
-#                 data = request.data
-#                 username = request.user.username
-#                 companyId = AdminUser.objects.filter(adminId=username).values('companyId')
-#                 instance = self.get_object(departmentId)
-#                 serializer = DepartmentSerializer(instance,data=data)
-#                 if serializer.is_valid():
-#                     departmentName = serializer.validated_data['departmentName']
-#                     dept = Department(departmentName=departmentName,companyId=Companies.objects.get(companyId=companyId))
-#                     dept.save()
-#
-#                     serializer.save()
-#                     return Response(serializer.data , status=201)
-#                 return Response(status=400)
+class DepartmentdetailView(APIView):
+    def get_object(self,id):
+       
+        return Department.objects.get(departmentId=id)   
+
+    def get(self,request,id=None):
+        departmentId=id
+        instance = self.get_object(departmentId)
+        serializer = DepartmentSerializer(instance)
+        return Response(serializer.data)
+
+    def put(self,request,id=None):
+                departmentId=id
+                data = request.data
+                username = request.user.username
+                companyId = AdminUser.objects.filter(adminId=username).values('companyId')
+                a = Companies.objects.get(companyId__in=companyId)
+                instance = self.get_object(departmentId)
+                serializer = DepartmentSerializer(instance,data=data)
+                if serializer.is_valid():
+                    departmentName = serializer.validated_data['departmentName']
+                    dep = Department.objects.filter(departmentName=departmentName,companyId=a)
+                    if dep:
+                        return Response("Department Exist")
+                    else:
+                        serializer.save()
+                        return Response(serializer.data , status=201)
+                return Response(status=400)
 
 
 # class DesigantionView(APIView):
