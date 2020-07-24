@@ -26,5 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('auth/', include('companyRegistrationAndLoginApplication.urls')),
-    path('department/',include("departmentAndDesignationManagement.urls"))
+    path('department/', include("departmentAndDesignationManagement.urls"))
 ]

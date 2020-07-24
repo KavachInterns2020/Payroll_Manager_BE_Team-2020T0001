@@ -13,11 +13,4 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class DesignationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Designation
-        fields = ['designationId', 'companyId', 'departmentId', 'designationName']
-
-    def create(self, validated_data):
-        designation = Designation(
-            departmentId=self.validated_data['departmentId'],
-            designationName=self.validated_data['designationName'],
-            companyId=self.validated_data['companyId'],
-        )
+        fields = ['designationId', 'departmentId', 'designationName']
