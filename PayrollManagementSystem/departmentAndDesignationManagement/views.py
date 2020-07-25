@@ -5,7 +5,7 @@ from . import models, serializers
 from rest_framework.response import Response
 from rest_framework import status
 from companyRegistrationAndLoginApplication.models import AdminUser, Companies
-from .serializers import DepartmentSerializer, DesignationSerializer
+from .serializers import DepartmentSerializer, DesignationSerializer, HeadOfDepartmentSerializer
 from .models import Department, Designation, HeadOfDepartment
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
@@ -52,7 +52,7 @@ class DepartmentView(APIView):
                 serializer = DepartmentSerializer(data=data)
                 if serializer.is_valid():
                     departmentName = serializer.validated_data['departmentName']
-                    dep = Department.objects.filter(departmentName=departmentName,companyId=a)
+                    dep = Department.objects.filter(departmentName=departmentName, companyId=a)
                     if dep:
                         return Response("Department Exist")
                     else:
@@ -98,11 +98,33 @@ class HeadOfDepartmentView(APIView):
         username = request.user.username
         companyId = AdminUser.objects.filter(adminId=username).values('companyId')
         headOfDepartment = HeadOfDepartment.objects.filter(companyId__in=companyId)
-        serializer = DepartmentSerializer(headOfDepartment, many=True)
+        serializer = HeadOfDepartmentSerializer(headOfDepartment, many=True)
         return Response(serializer.data)
 
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        username = request.user.username
+        company_id = AdminUser.objects.filter(adminId=username).values('companyId')
+        company_name = Companies.objects.get(companyId__in=company_id)
+        head_serializer = HeadOfDepartmentSerializer(data=data)
+        if head_serializer.is_valid():
+            head_name = head_serializer.validated_data['headOfDepartmentName']
+            head_email = head_serializer.validated_data['emailAddress']
+            head_contact = head_serializer.validated_data['contactNumber']
+            head_department = head_serializer.validated_data['departmentId']
+            hod = HeadOfDepartment.objects.filter(departmentId=head_department, headOfDepartmentName=head_name, companyId=company_name)
+            if hod:
+                return Response("Head Of Department Exist")
+            else:
+                head_serializer.save(headOfDepartmentName=head_name, emailAddress=head_email, contactNumber=head_contact, departmentId=head_department, companyId=company_name)
+                return Response(head_serializer.data, status=201)
+        return Response("message:not found", status=400)
 
+    def put(self, request, *args, **kwargs):
+        pass
 
+    def delete(self, request, *args, **kwargs):
+        pass
 
 
 # class DesigantionView(APIView):

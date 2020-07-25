@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = ["departmentName",'companyId']
+        fields = ["departmentName", 'companyId']
     
 
 class DesignationSerializer(serializers.ModelSerializer):
