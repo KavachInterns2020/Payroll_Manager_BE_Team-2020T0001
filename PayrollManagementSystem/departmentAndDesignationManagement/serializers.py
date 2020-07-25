@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Department, Designation
+from .models import Department, Designation, HeadOfDepartment
 from companyRegistrationAndLoginApplication.models import AdminUser
 from django.contrib.auth.models import User
 
@@ -14,3 +14,9 @@ class DesignationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Designation
         fields = ['designationId', 'departmentId', 'designationName']
+
+
+class HeadOfDepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HeadOfDepartment
+        fields = ['headOfDepartmentName', 'emailAddress', 'contactNumber', 'departmentId']

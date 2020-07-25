@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from companyRegistrationAndLoginApplication.models import AdminUser, Companies
 from .serializers import DepartmentSerializer, DesignationSerializer
-from .models import Department, Designation
+from .models import Department, Designation, HeadOfDepartment
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 # Create your views here.
@@ -37,7 +37,7 @@ class DepartmentView(APIView):
     
     permission_classes = [IsAuthenticated]
 
-    def get(self,request):
+    def get(self, request):
         username = request.user.username
         companyId = AdminUser.objects.filter(adminId=username).values('companyId')
         dept = Department.objects.filter(companyId__in=companyId)
@@ -90,7 +90,21 @@ class DepartmentdetailView(APIView):
                         return Response(serializer.data , status=201)
                 return Response(status=400)
 
-#
+
+class HeadOfDepartmentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        username = request.user.username
+        companyId = AdminUser.objects.filter(adminId=username).values('companyId')
+        headOfDepartment = HeadOfDepartment.objects.filter(companyId__in=companyId)
+        serializer = DepartmentSerializer(headOfDepartment, many=True)
+        return Response(serializer.data)
+
+
+
+
+
 # class DesigantionView(APIView):
 #     permission_classes = [IsAuthenticated]
 #
