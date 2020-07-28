@@ -62,17 +62,17 @@ class DepartmentView(APIView):
 
                 
 class DepartmentdetailView(APIView):
-    def get_object(self,id):
+    def get_object(self, id):
        
         return Department.objects.get(departmentId=id)   
 
-    def get(self,request,id=None):
+    def get(self, request, id=None):
         departmentId=id
         instance = self.get_object(departmentId)
         serializer = DepartmentSerializer(instance)
         return Response(serializer.data)
 
-    def put(self,request,id=None):
+    def put(self, request, id=None):
                 departmentId=id
                 data = request.data
                 username = request.user.username
@@ -120,11 +120,25 @@ class HeadOfDepartmentView(APIView):
                 return Response(head_serializer.data, status=201)
         return Response("message:not found", status=400)
 
-    def put(self, request, *args, **kwargs):
-        pass
 
-    def delete(self, request, *args, **kwargs):
-        pass
+class HeadOfDepartmentDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk, *args, **kwargs):
+        headOfDepartment = HeadOfDepartment.objects.get(id=pk)
+        serializer =HeadOfDepartmentSerializer(instance=headOfDepartment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, pk, *args, **kwargs):
+        headOfDepartment = HeadOfDepartment.objects.get(id=pk)
+        headOfDepartment.delete()
+        return Response("Record Deleted Successfully!!!")
+
+
+
+
 
 
 # class DesigantionView(APIView):
