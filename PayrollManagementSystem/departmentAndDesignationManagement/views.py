@@ -37,11 +37,11 @@ class DepartmentView(APIView):
     
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self,request):
         username = request.user.username
         companyId = AdminUser.objects.filter(adminId=username).values('companyId')
         dept = Department.objects.filter(companyId__in=companyId)
-        serializer = DepartmentSerializer(dept, many=True)
+        serializer = DepartmentSerializer(dept ,many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -52,7 +52,7 @@ class DepartmentView(APIView):
                 serializer = DepartmentSerializer(data=data)
                 if serializer.is_valid():
                     departmentName = serializer.validated_data['departmentName']
-                    dep = Department.objects.filter(departmentName=departmentName, companyId=a)
+                    dep = Department.objects.filter(departmentName=departmentName,companyId=a)
                     if dep:
                         return Response("Department Exist")
                     else:
@@ -62,17 +62,26 @@ class DepartmentView(APIView):
 
                 
 class DepartmentdetailView(APIView):
-    def get_object(self, id):
-       
+    permission_classes = [IsAuthenticated]
+    def get_object(self,id):
         return Department.objects.get(departmentId=id)   
 
-    def get(self, request, id=None):
+    def get(self,request,id=None):
         departmentId=id
-        instance = self.get_object(departmentId)
-        serializer = DepartmentSerializer(instance)
-        return Response(serializer.data)
+        username = request.user.username
+        companyId = AdminUser.objects.filter(adminId=username).values('companyId')
+        username = request.user.username
+        companyId = AdminUser.objects.filter(adminId=username).values('companyId')
+        a = Companies.objects.get(companyId__in=companyId)
+        dep = Department.objects.filter(departmentId=departmentId,companyId=a)
+        if dep :
+            instance = self.get_object(departmentId)
+            serializer = DepartmentSerializer(instance)
+            return Response(serializer.data)
+        else:
+            return Response("Department Does Not Exist")
 
-    def put(self, request, id=None):
+    def put(self,request,id=None):
                 departmentId=id
                 data = request.data
                 username = request.user.username
@@ -89,6 +98,14 @@ class DepartmentdetailView(APIView):
                         serializer.save()
                         return Response(serializer.data , status=201)
                 return Response(status=400)
+
+
+    def delete(self,request,id):
+        departmentId = id 
+        instance =  self.get_object(departmentId)
+        instance.delete()
+        return Response("Department Deleted",status=201)
+
 
 
 class HeadOfDepartmentView(APIView):
