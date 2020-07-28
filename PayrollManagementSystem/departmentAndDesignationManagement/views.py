@@ -142,10 +142,6 @@ class HeadOfDepartmentDetailView(APIView):
         return Response("Record Deleted Successfully!!!")
 
 
-
-
-
-
 # class DesigantionView(APIView):
 #     permission_classes = [IsAuthenticated]
 #
