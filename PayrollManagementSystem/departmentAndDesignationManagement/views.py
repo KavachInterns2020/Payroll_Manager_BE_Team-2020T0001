@@ -94,14 +94,14 @@ class DepartmentdetailView(APIView):
 class HeadOfDepartmentView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         username = request.user.username
         companyId = AdminUser.objects.filter(adminId=username).values('companyId')
         headOfDepartment = HeadOfDepartment.objects.filter(companyId__in=companyId)
         serializer = HeadOfDepartmentSerializer(headOfDepartment, many=True)
         return Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         data = request.data
         username = request.user.username
         company_id = AdminUser.objects.filter(adminId=username).values('companyId')
@@ -124,15 +124,20 @@ class HeadOfDepartmentView(APIView):
 class HeadOfDepartmentDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def put(self, request, pk, *args, **kwargs):
-        headOfDepartment = HeadOfDepartment.objects.get(id=pk)
+    def get(self, request, id=None):
+        instance = HeadOfDepartment.objects.get(headOfDepartmentId=id)
+        serializer = HeadOfDepartmentSerializer(instance)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        headOfDepartment = HeadOfDepartment.objects.get(headOfDepartmentId=id)
         serializer =HeadOfDepartmentSerializer(instance=headOfDepartment, data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)
 
-    def delete(self, request, pk, *args, **kwargs):
-        headOfDepartment = HeadOfDepartment.objects.get(id=pk)
+    def delete(self, request, id):
+        headOfDepartment = HeadOfDepartment.objects.get(headOfDepartmentId=id)
         headOfDepartment.delete()
         return Response("Record Deleted Successfully!!!")
 
