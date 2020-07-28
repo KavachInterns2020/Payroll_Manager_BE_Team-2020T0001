@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Companies, AdminUser
+from .models import Companies, AdminUser,Holidays
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
@@ -70,3 +70,7 @@ class LoginSerializer(serializers.Serializer):
             raise exceptions.ValidationError(msg)
         return data
 
+class HolidaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model =  Holidays
+        fields = ['companyId','holidayName','date','day','month','year']
