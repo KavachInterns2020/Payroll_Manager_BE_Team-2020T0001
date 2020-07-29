@@ -107,7 +107,6 @@ class DepartmentdetailView(APIView):
         return Response("Department Deleted",status=201)
 
 
-
 class HeadOfDepartmentView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -159,12 +158,49 @@ class HeadOfDepartmentDetailView(APIView):
         return Response("Record Deleted Successfully!!!")
 
 
-# class DesigantionView(APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def get(self, request, *args, **kwargs):
-#         des = Designation.objects.all()
-#         serializer = DesignationSerializer(des, many=True)
-#         return Response(serializer.data)
+class DesigantionView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        designations = Designation.objects.all()
+        serializer = DesignationSerializer(designations, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data = request.data
+        username = request.user.username
+        company_id = AdminUser.objects.filter(adminId=username).values('companyId')
+        company_name = Companies.objects.get(companyId__in=company_id)
+        designation_serializer = DesignationSerializer(data=data)
+
+        if designation_serializer.is_valid():
+            designation_name = designation_serializer.validated_data['designationName']
+            department_id = designation_serializer.validated_data['departmentId']
+            designation = Designation.objects.filter(designationName=designation_name, departmentId=department_id, companyId=company_name)
+            if designation:
+                return Response("Head Of Department Exist")
+            else:
+                designation_serializer.save(designationName=designation_name, departmentId=department_id, companyId=company_name)
+                return Response(designation_serializer.data, status=201)
+        return Response("message:not found", status=400)
 
 
+class DesignationDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id=None):
+        designation_instance = Designation.objects.get(designationId=id)
+        serializer = DesignationSerializer(instance=designation_instance)
+        return Response(serializer.data)
+
+    def put(self, request, id=None):
+        designation_instance = Designation.objects.get(designationId=id)
+        serializer = DesignationSerializer(instance=designation_instance, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, id=None):
+        designation = Designation.objects.get(designationId=id)
+        designation.delete()
+        return Response("Record Deleted Successfully!!!")

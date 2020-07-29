@@ -13,7 +13,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class DesignationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Designation
-        fields = ['designationId', 'departmentId', 'designationName']
+        fields = ['companyId', 'designationName', 'departmentId']
 
 
 class HeadOfDepartmentSerializer(serializers.ModelSerializer):

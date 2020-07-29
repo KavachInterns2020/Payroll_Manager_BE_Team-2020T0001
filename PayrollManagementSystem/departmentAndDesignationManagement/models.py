@@ -16,9 +16,6 @@ class Designation(models.Model):
     designationName = models.CharField(max_length=250, unique=True)
     departmentId = models.ForeignKey(Department, default=None, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.designationId
-
 
 class HeadOfDepartment(models.Model):
     headOfDepartmentId = models.AutoField(primary_key=True, unique=True)
